@@ -3,16 +3,31 @@ package com.webnobis.configuration.transform;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Arrays;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * Transforms configuration value (always String) to needed type (maybe int)
+ * 
+ * @author steffen
+ *
+ */
 public abstract class ConfigurationTransformer {
 
 	private ConfigurationTransformer() {
 	}
 
+	/**
+	 * 
+	 * @param type
+	 *            the needed type
+	 * @param value
+	 *            the value
+	 * @return type conform transformed value
+	 * @throws UnsupportedOperationException
+	 *             for not supported types
+	 */
 	@SuppressWarnings("unchecked")
 	public static <T> T transform(Class<?> type, String value) {
 		if (String.class.isAssignableFrom(type)) {
@@ -49,6 +64,10 @@ public abstract class ConfigurationTransformer {
 				type.getName(), getSupportedTypes()));
 	}
 
+	/**
+	 * 
+	 * @return all supported types, comma separated
+	 */
 	public static String getSupportedTypes() {
 		return Stream.concat(Stream.of(String.class.getName()),
 				Stream.concat(
